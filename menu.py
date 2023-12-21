@@ -6,6 +6,7 @@ from button import Button
 from player import Player
 
 pygame.init()
+pygame.mixer.init()
 
 SCREEN = pygame.display.set_mode((700, 602))
 pygame.display.set_caption("Menu")
@@ -14,6 +15,7 @@ BG = pygame.image.load("img/Background.png")
 
 sound_begin = pygame.mixer.Sound('sound/jinglebell.mp3')
 sound_final = pygame.mixer.Sound('sound/final.mp3')
+sound_button = pygame.mixer.Sound('sound/button.mp3')
 
 
 def get_font(size): # Returns Press-Start-2P in the desired size
@@ -122,7 +124,6 @@ class Main():
 def play():
     in_play_screen = True
     while True:
-        
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
 
         imgslide = pygame.image.load("img/Are you ready.png").convert()
@@ -131,10 +132,10 @@ def play():
         PLAY_TEXT1 = get_font(45).render("Are you ready?", True, "White")
         PLAY_RECT1 = PLAY_TEXT1.get_rect(center=(355, 200))
         SCREEN.blit(PLAY_TEXT1, PLAY_RECT1)
+        
 
         PLAY_BACK = Button(image=None, pos=(355, 400), 
                             text_input="BACK", font=get_font(20), base_color="White", hovering_color="Green")
-        
         READY = Button(image=None, pos=(355, 300), 
                             text_input="Ready", font=get_font(20), base_color="White", hovering_color="Green")
         
@@ -142,16 +143,20 @@ def play():
         PLAY_BACK.update(SCREEN)  
         READY.changeColor(PLAY_MOUSE_POS)
         READY.update(SCREEN)
+        
 
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                sound_button.play()
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
+                    sound_button.play()
                     main_menu()
                 if READY.checkForInput(PLAY_MOUSE_POS):
+                    sound_button.play()
                     window_size = (700, 602)
                     screen = (window_size[0] + 150, window_size[-1])
                     tile_size = 50
@@ -162,6 +167,7 @@ def play():
                     game.main(window_size, tile_size)
 
         pygame.display.update()
+        
     
 def options():
     while True:
@@ -178,10 +184,12 @@ def options():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                sound_button.play()
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
+                    sound_button.play()
                     main_menu()
 
         pygame.display.update()
@@ -189,11 +197,13 @@ def options():
 def main_menu():
     while True:
         SCREEN.blit(BG, (0, 0))
+        
 
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
         MENU_TEXT = get_font(65).render("MAIN MENU", True, "#b68f40")
         MENU_RECT = MENU_TEXT.get_rect(center=(355, 50))
+        
 
         PLAY_BUTTON = Button(image=None, pos=(355, 180), text_input="PLAY", font=get_font(40), base_color="#d7fcd4", hovering_color="White")
         OPTIONS_BUTTON = Button(image=None, pos=(355, 340), text_input="RULES", font=get_font(40), base_color="#d7fcd4", hovering_color="White")
@@ -211,16 +221,18 @@ def main_menu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    sound_button.play()
                     play()
+                
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    sound_button.play()
                     options()
+                    
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    sound_button.play()
                     pygame.quit()
                     sys.exit()
 
         pygame.display.update()
 
 main_menu()
-
-
-        
