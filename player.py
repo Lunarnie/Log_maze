@@ -9,6 +9,8 @@ class Player:
 		self.player_size = 50
 		self.rect = pygame.Rect(self.x, self.y, self.player_size, self.player_size)
 		self.image = pygame.image.load('img/delivery.png')
+		self.rotated_image = self.image
+		self.angle = 0
 		self.velX = 0
 		self.velY = 0
 		self.left_pressed = False
@@ -48,7 +50,7 @@ class Player:
 
 	# drawing player to the screen
 	def draw(self, screen):
-		screen.blit(self.image, self.rect)
+		screen.blit(self.rotated_image, self.rect)
 		elapsed_time = time.time() - self.start_time  # Thêm dòng này
 		if elapsed_time > 5:  # Sửa dòng này
 			#Che mê cung hiện chỗ vật di chuyển
@@ -63,17 +65,20 @@ class Player:
 
 	# updates player position while moving
 	def update(self):
+		self.rotated_image = pygame.transform.rotate(self.image, self.angle)
+		self.rect = self.rotated_image.get_rect(center=self.rect.center)
 		self.velX = 0
 		self.velY = 0
 		if self.left_pressed and not self.right_pressed:
 			self.velX = -self.speed
+			self.angle += 5
 		if self.right_pressed and not self.left_pressed:
 			self.velX = self.speed
+			self.angle -= 5
 		if self.up_pressed and not self.down_pressed:
 			self.velY = -self.speed
 		if self.down_pressed and not self.up_pressed:
 			self.velY = self.speed
-
 		self.x += self.velX
 		self.y += self.velY
 
