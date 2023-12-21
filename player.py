@@ -51,16 +51,15 @@ class Player:
 	# drawing player to the screen
 	def draw(self, screen):
 		screen.blit(self.rotated_image, self.rect)
-		elapsed_time = time.time() - self.start_time  # Thêm dòng này
+		elapsed_time = time.time() - self.start_time  
 		if elapsed_time > 5:  # Sửa dòng này
 			#Che mê cung hiện chỗ vật di chuyển
-			screen.fill(pygame.Color("silver"), (self.x + 50, 0, 702-(self.x+50), self.y)) # màn bên phải kéo tới ô vật thể
+			screen.fill(pygame.Color("silver"), (self.x, 0, 702-self.x, self.y)) # màn bên phải kéo tới ô vật thể
 			if self.x > 602 :
-				screen.fill(pygame.Color("silver"), (self.x, self.y + 100,100-(self.x-602), 602-(self.y+50))) #màn ở dưới
+				screen.fill(pygame.Color("silver"), (self.x, self.y + 100,100-(self.x-602), 602-(self.y+100))) #màn ở dưới
 			else :
-				screen.fill(pygame.Color("silver"), (self.x, self.y + 100, 100, 602-(self.y+50)))
+				screen.fill(pygame.Color("silver"), (self.x, self.y + 100, 100, 602-(self.y+100)))
 			screen.fill(pygame.Color("silver"), (0, 0 ,self.x, 602)) #màn bên trái
-			screen.fill(pygame.Color("silver"), (self.x,0 ,50, self.y)) #màn ở trên
 			screen.fill(pygame.Color("silver"), (self.x + 100, self.y , 702-(self.x+100), 602-self.y)) 
 
 	# updates player position while moving
