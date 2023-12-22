@@ -13,7 +13,8 @@ pygame.display.set_caption("Menu")
 
 BG = pygame.image.load("img/Background.png")
 
-sound_begin = pygame.mixer.Sound('sound/jinglebell.mp3')
+sound_begin = pygame.mixer.Sound('sound/begin.mp3')
+sound_game = pygame.mixer.Sound('sound/space.mp3')
 sound_final = pygame.mixer.Sound('sound/final.mp3')
 sound_button = pygame.mixer.Sound('sound/button.mp3')
 
@@ -71,6 +72,7 @@ class Main():
 		maze.generate_maze()
 		clock.start_timer()
 		while self.running:
+			sound_begin.stop()
 			imgmaze = pygame.image.load("img/background_maze.png").convert()
 			SCREEN.blit(imgmaze, (0, 0))
 			clock_img = pygame.image.load("img/backgroundclock.png").convert()
@@ -83,7 +85,7 @@ class Main():
 
 			# if keys were pressed still
 			if event.type == pygame.KEYDOWN:
-				sound_begin.play()
+				sound_game.play()
 				if not self.game_over:
 					if event.key == pygame.K_LEFT:
 						player.left_pressed = True
@@ -114,13 +116,13 @@ class Main():
 				player.right_pressed = False
 				player.up_pressed = False
 				player.down_pressed = False
-				sound_begin.stop()
+				sound_game.stop()
 				sound_final.play()
 			self._draw(maze, tile, player, game, clock)
 			self.FPS.tick(60)
         
 
-
+sound_begin.play()
 def play():
     in_play_screen = True
     while True:
